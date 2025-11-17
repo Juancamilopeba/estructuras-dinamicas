@@ -15,9 +15,27 @@ Tips:
 
 from estructuras.stack import Stack
 
-PARES = {')': '(', '}': '{', ']': '['}
-
 def validate_expression(expression: str) -> bool:
-    # TODO: Implementar con Stack siguiendo las reglas de arriba.
-    # Debe ser O(n) en tiempo; O(n) espacio peor caso.
-    raise NotImplementedError
+    pares = {
+        ')': '(',
+        '}': '{',
+        ']': '['
+    }
+
+    stack = Stack()
+
+    for char in expression:
+        if char in '([{':
+            stack.push(char)
+
+        elif char in ')]}':
+            if stack.is_empty():
+                return False
+
+            top = stack.pop()
+            if pares[char] != top:
+                return False
+
+    # Si la pila queda vacía → está balanceado
+    return stack.is_empty()
+

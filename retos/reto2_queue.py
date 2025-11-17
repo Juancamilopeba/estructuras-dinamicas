@@ -19,15 +19,36 @@ Tips:
 from estructuras.queue import Queue
 
 class QueueManager:
-    # TODO: implementar usando Queue internamente.
     def __init__(self):
-        raise NotImplementedError
+        self.queue = Queue()
 
-    def add_person(self, nombre: str, tiempo: int) -> None:
-        raise NotImplementedError
+    def add_person(self, nombre: str, tiempo: int):
+        """
+        Agrega una persona a la cola.
+        value almacenado: (nombre, tiempo)
+        """
+        self.queue.enqueue((nombre, tiempo))
 
-    def serve_person(self) -> tuple[str, int]:
-        raise NotImplementedError
+    def serve_person(self):
+        """
+        Atiende al primero en la cola.
+        Retorna (nombre, tiempo) o None si la cola está vacía.
+        """
+        if self.queue.is_empty():
+            return None
+        return self.queue.dequeue()
 
-    def state(self) -> list[str]:
-        raise NotImplementedError
+    def state(self):
+        """
+        Retorna una lista de strings para mostrar el estado.
+        Ejemplo: ["Juan - 5", "Ana - 3"]
+        """
+        estado = []
+        current = self.queue.head
+
+        while current:
+            nombre, tiempo = current.value
+            estado.append(f"{nombre} - {tiempo}")
+            current = current.next
+
+        return estado

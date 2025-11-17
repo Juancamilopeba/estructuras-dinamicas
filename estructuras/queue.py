@@ -10,28 +10,46 @@ Sugerencia:
 - Mantén punteros a head y tail, más un contador.
 """
 
-class DoubleNode:
-    # TODO: implementar nodo doble
-    pass
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.prev = None
+        self.next = None
 
 class Queue:
-    # TODO: implementar cola enlazada doble
+    def __init__(self):
+        self.head = None
+        self.tail = None
+        self._size = 0
+
     def enqueue(self, value):
-        """Inserta al final. O(1)"""
-        raise NotImplementedError
+        node = Node(value)
+        if self.tail:
+            self.tail.next = node
+            node.prev = self.tail
+        else:
+            self.head = node
+        self.tail = node
+        self._size += 1
 
     def dequeue(self):
-        """Extrae el primero. O(1). Debe lanzar IndexError si está vacía."""
-        raise NotImplementedError
+        if self.is_empty():
+            return None
+        value = self.head.value
+        self.head = self.head.next
+        if self.head:
+            self.head.prev = None
+        else:
+            self.tail = None
+        self._size -= 1
+        return value
 
     def peek(self):
-        """Retorna el primero sin extraer. O(1). IndexError si vacía."""
-        raise NotImplementedError
+        return None if self.is_empty() else self.head.value
 
     def is_empty(self):
-        """True si la cola está vacía. O(1)"""
-        raise NotImplementedError
+        return self.head is None
 
     def size(self):
-        """Cantidad de elementos. O(1)"""
-        raise NotImplementedError
+        return self._size
+
